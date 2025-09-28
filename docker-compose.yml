@@ -1,0 +1,42 @@
+version: "3.8"
+
+services:
+  user-service:
+    build: ./user-service
+    ports:
+      - "5000:5000"
+    environment:
+      - DB_HOST=mysql
+      - DB_USER=root
+      - DB_PASS=root
+      - DB_NAME=users_db
+    depends_on:
+      - mysql
+
+  product-service:
+    build: ./product-service
+    ports:
+      - "6000:6000"
+    environment:
+      - DB_HOST=postgres
+      - DB_USER=postgres
+      - DB_PASS=postgres
+      - DB_NAME=products_db
+    depends_on:
+      - postgres
+
+  mysql:
+    image: mysql:8
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - ./db-init/mysql-init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  postgres:
+    image: postgres:15
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - ./db-init/postgres-init.sql:/docker-entrypoint-initdb.d/init.sql

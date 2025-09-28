@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>3-Tier Demo App</title>
+  </head>
+  <body>
+    <h1>Welcome to 3-Tier Demo</h1>
+    
+    <h2>Users</h2>
+    <button onclick="getUsers()">Load Users</button>
+    <pre id="users"></pre>
+    
+    <h2>Products</h2>
+    <button onclick="getProducts()">Load Products</button>
+    <pre id="products"></pre>
+    
+    <script>
+      async function getUsers() {
+        let res = await fetch("http://USER-SERVICE-URL/users");
+        document.getElementById("users").innerText = await res.text();
+      }
+      async function getProducts() {
+        let res = await fetch("http://PRODUCT-SERVICE-URL/products");
+        document.getElementById("products").innerText = await res.text();
+      }
+    </script>
+  </body>
+</html>
